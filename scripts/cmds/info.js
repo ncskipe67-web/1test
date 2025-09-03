@@ -32,10 +32,10 @@ module.exports = {
   },
 
   sendInfo: async function (message) {
-    const botName = "🕸️ 𝐒𝐩𝐢𝐝𝐞𝐘🕷️";
-    const authorName = "Ma-Hi";
-    const authorFB = "fb.com/mahi68x";
-    const authorInsta = "raadx102";
+    const botName = "𝗬𝗼𝘂𝗿 𝗰𝗿𝘂𝘀𝗵";
+    const authorName = "𝗻𝗰𝗮-𝗽𝗿𝗼";
+    const authorFB = "𝗸𝗶𝗽𝗲 𝗷𝗲𝗿𝗿𝘆";
+    const authorInsta = "𝘆𝗼𝘂𝗿 𝗱𝗮𝗱";
     const status = "𝗦𝗶𝗻𝗴𝗹𝗲";
 
     const now = moment().tz('Asia/Dhaka');
