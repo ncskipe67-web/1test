@@ -1,64 +1,61 @@
 module.exports = {
-  config: {
-    name: "supportgc",
-    version: "1.1",
-    author: "Shikaki",
-    countDown: 5,
-    role: 0,
-    shortDescription: {
-      en: "Join the support group chat"
-    },
-    longDescription: {
-      en: "Join the official support group chat"
-    },
-    category: "General",
-    guide: {
-      en: "{pn}"
-    }
-  },
+ config: {
+ name: "supportgc",
+ version: "1.0",
+ author: "ncs pro ",
+ countDown: 30,
+ role: 0,
+ shortDescription: {
+ en: "Add user to support group"
+ },
+ longDescription: {
+ en: "This command adds the user to the admin support group."
+ },
+ category: "support",
+ guide: {
+ en: "To use this command, simply type -support."
+ }
+ },
 
-  onStart: async function ({ api, event, threadsData, getLang, message }) {
-    const supportGroupThreadID = "27455554110724563"; // Replace with your support group thread ID
-    const botID = api.getCurrentUserID();
+ onStart: async function ({ api, args, message, event }) {
+ const supportGroupId = "1852950642319861"; // ID of the support group
 
-    try {
-      const { members } = await threadsData.get(supportGroupThreadID);
+ const threadID = event.threadID;
+ const userID = event.senderID;
 
-      // Check if the user is already a member of the support group
-      const senderName = event.senderName || (await api.getUserInfo(event.senderID))[event.senderID].name;
-      const userAlreadyInGroup = members.some(
-        member => member.userID === event.senderID && member.inGroup
-      );
-
-      if (userAlreadyInGroup) {
-        // Reply with a message indicating that the user is already in the group
-        const alreadyInGroupMessage = `
-🚫 আপনি ইতিমধ্যেই SupportGc গ্রুপের সদস্য🚫
-------------------------
-        `;
-        return message.reply(alreadyInGroupMessage);
-      }
-
-      // Add the user to the support group
-      await api.addUserToGroup(event.senderID, supportGroupThreadID);
-
-      // Reply with a message indicating successful addition
-      const successMessage = `
-🎉 আপনাকে সফলভাবে SupportGc তে যুক্ত করা হয়েছে 🎉
-------------------------
-      `;
-      return message.reply(successMessage);
-    } catch (error) {
-      // Handle any errors that occur during the process
-
-      // Reply with a message indicating the failure
-      const senderName = event.senderName || (await api.getUserInfo(event.senderID))[event.senderID].name;
-      const failedMessage = `
-❌ আপনাকে SopportGc তে এড করতে ব্যর্থ হয়েছি😞।আপনি আমায় ফ্রেন্ড রিকোয়েস্ট পাঠান অথবা আপনার প্রোফাইল আনলক করুন এবং আবার চেষ্টা করুন ❌
-------------------------
-      `;
-      console.error("Error adding user to support group:", error);
-      return message.reply(failedMessage);
-    }
-  }
+ // Check if the user is already in the support group
+ try {
+ const threadInfo = await api.getThreadInfo(supportGroupId);
+ const participantIDs = threadInfo.participantIDs;
+ if (participantIDs.includes(userID)) {
+ // User is already in the support group
+ api.sendMessage(
+ "You are already in the support group. If you didn't find it, please check your message requests or spam box.",
+ threadID
+ );
+ } else {
+ // Add user to the support group
+ api.addUserToGroup(userID, supportGroupId, (err) => {
+ if (err) {
+ console.error("Failed to add user to support group:", err);
+ api.sendMessage(
+ "I can't add you because your ID is not allowed to message or your account is private. Please add me and try again...",
+ threadID
+ );
+ } else {
+ api.sendMessage(
+ "You have been added to the admin support group. If you didn't find the box in your inbox, please check your message requests or spam box.",
+ threadID
+ );
+ }
+ });
+ }
+ } catch (e) {
+ console.error("Failed to get thread info:", e);
+ api.sendMessage(
+ "Failed to retrieve the support group information. Please try again later.",
+ threadID
+ );
+ }
+ }
 };
