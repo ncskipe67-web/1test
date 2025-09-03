@@ -13,7 +13,7 @@
   "checkApproval": true,
   "language": "en",
   "notesLanguage": "change to your language with ISO 639-1 code, available languages: vi (Vietnamese), en (English)",
-  "nickNameBot": "𝗬𝗼𝘂𝗿༒𝗰𝗿𝘂𝘀𝗵",
+  "nickNameBot": "𝗬𝗼𝘂𝗿 𝗰𝗿𝘂𝘀𝗵",
   "prefix": "-",
   "adminOnly": {
     "enable": false,
@@ -25,8 +25,6 @@
     "61550712846775",
     "61579279925067",
     "61558651089120",
-    "",
-    ""
   ],
   "whiteListMode": {
     "enable": false,
